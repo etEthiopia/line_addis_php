@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/lineaddiscom/test.lineaddis.com/
+    - /bin/cp -R * $DEPLOYPATH
