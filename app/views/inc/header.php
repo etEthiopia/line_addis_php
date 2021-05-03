@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/assets/theme/css/style.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/assets/mobirise/css/mbr-additional.css" type="text/css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/assets/gallery/style.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/assets/material-design/css/material-icons.min.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/assets/flag-icons/css/flag-icon.min.css">
     <link rel="shortcut icon" href="<?php echo URLROOT; ?>/assets/images/lineaddis-logo-square-1432x970" type="image/x-icon">
     
 

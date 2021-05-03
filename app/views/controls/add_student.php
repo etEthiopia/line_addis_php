@@ -158,7 +158,7 @@
 
                             <div class="col-md-4 form-group statusfield" data-for="status">
                                 <label for="statusfield" class="form-control-label mbr-fonts-style display-7">Status</label>
-                                <select id="infofield" name="status" class="form-control display-7">
+                                <select id="statusfield" name="status" class="form-control display-7">
                                     <option value=1>Registered</option>
                                     <option value=2 selected>Proccessing</option>
                                     <option value=3>Visa Granted</option>
@@ -166,6 +166,59 @@
                                 </select>
                                 
                             </div>
+
+                            <div class="col-md-4 form-group infofield" data-for="info" onchange="changeOthers()">
+                                <label for="infofield" class="form-control-label mbr-fonts-style display-7">How Did You
+                                    Hear About Us?</label>
+                                <select id="infofield" name="info" class="form-control display-7">
+                                    <option style="display:none" value=""></option>
+                                    <option value="Telegram">Telegram</option>
+                                    <option value="Facebook">Facebook</option>
+                                    <option value="General Internet Search">General Internet Search</option>
+                                    <option value="A Person">A Person</option>
+                                    <option value="Other Way">Other Way</option>
+                                </select>
+                                
+                            </div>
+
+
+                            <div class="col-md-4 form-group agentfield" data-for="agent" id="agentsection"
+                                style="display:none">
+                                <label for="agentfield" class="form-control-label mbr-fonts-style display-7">Please
+                                    Provide the Name of the Person</label>
+                                <input type="name" name="agent"  maxlength = "40" id="agentfield" data-form-field="Agent" data-reason
+                                    class="form-control display-7" value="<?php echo ($data['agent'])?>">
+                                <small class="errorAgent"><i class="formerror fa fa-asterisk" aria-hidden="true"></i>
+                                    <p style="color: red; font-size: large;">Person is
+                                        not valid</p>
+                                </small>
+                            </div>
+
+                            <div class="col-md-4 form-group othersfield" data-for="others" id="otherssection"
+                                style="display:none">
+                                <label for="agentfield" class="form-control-label mbr-fonts-style display-7">Tell Us How
+                                    You Heard About Us</label>
+                                <input type="text" name="others"  maxlength = "40" id="othersfield" data-form-field="Others" 
+                                    class="form-control display-7" value="<?php echo ($data['others'])?>">
+                                <small class="errorOthers"><i class="formerror fa fa-asterisk" aria-hidden="true"></i>
+                                    <p style="color: red; font-size: large;">Others Field is
+                                        not valid</p>
+                                </small>
+                            </div>
+
+                             <div class="col-md-4 form-group promocodefield" data-for="name">
+                                <label for="promocodefield"
+                                    class="form-control-label mbr-fonts-style display-7">PromoCode (If Any)</label>
+                                <input type="text" name="promocode"  maxlength = "10" id="promocodefield" data-form-field="Promocode" data-promocode
+                                     class="form-control display-7" value="<?php echo ($data['promocode'])?>">
+                                     <p style="color: red; font-size: large;">
+                                    <?php echo ($data['promocode_err'])?>
+                                </p>
+                                <small class="errorPromo"><i class="formerror fa fa-asterisk" aria-hidden="true"></i>
+                                    <p style="color: red; font-size: large;">PromoCode is
+                                        not valid</p>
+                                </small>
+                            </div>  
 
                             <div class="col-md-12 form-group filesfield" data-for="files[]">
                                 <label for="filesfield" class="form-control-label mbr-fonts-style display-7">Documents.

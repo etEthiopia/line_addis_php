@@ -53,6 +53,12 @@
       return $results;
     }
 
+    public function getAllGalleryContestApplicants(){
+      $this->db->query('SELECT * FROM gallery_contest_groups ORDER BY id DESC');
+      $results = $this->db->resultSet();
+      return $results;
+    }
+
     public function getEmployees(){
       $this->db->query('SELECT * FROM employees ORDER BY id ASC');
       $results = $this->db->resultSet();
@@ -77,6 +83,29 @@
           $data['data'] = $row;
           if($row->file == 1){
             $data['files'] = $this->getFiles($id);
+          }
+          
+        } 
+        return $data;
+    }
+
+    public function getGalleryContestApplicant($id){
+      $data = [
+        'data' => '',
+        'files' => ''
+      ];
+
+      $this->db->query('SELECT * FROM gallery_contest_groups WHERE id = :id');
+
+        // Bind value
+        $this->db->bind(':id', $id);
+
+        $row = $this->db->single();
+        // Check row
+        if($this->db->rowCount() > 0){
+          $data['data'] = $row;
+          if($row->file == 1){
+            $data['files'] = $this->getGalleryContestApplicantFiles($row->email);
           }
           
         } 
@@ -160,6 +189,16 @@
         return $this->db->resultSet();
     }
 
+    public function getGalleryContestApplicantFiles($email){
+      $this->db->query('SELECT * FROM gallery_contest_group_files WHERE email = :email');
+         $this->db->bind(':email', $email);
+
+        $row = $this->db->single();
+        // Check row
+        return $this->db->resultSet();
+    }
+
+    
     public function getStudentFiles($studentemail){
       $this->db->query('SELECT * FROM files WHERE student = :studentemail');
          $this->db->bind(':studentemail', $studentemail);
@@ -212,16 +251,30 @@
       $agent->granted = 0;
       $agent->unpaid = 0;
       $agent->totalmoney = 0;
+      $agent->bonuses = [];
+      $potbonus = [];
       if(count($stus) > 0){
         foreach($stus as $stu){
       if($stu->status == 2){
         $agent->processing += 1;
         $agent->totalmoney += abs($stu->adv_commission);
+        if(!array_key_exists(substr($stu->created_at, 0, 7),  $potbonus)){
+          $potbonus[substr($stu->created_at, 0, 7)] = 1;
+        }
+        else{
+          $potbonus[substr($stu->created_at, 0, 7)] += 1;
+        }
       }
       elseif($stu->status == 3){
         $agent->granted +=1;
         $agent->totalmoney += abs($stu->adv_commission);
         $agent->totalmoney += abs($stu->final_commission);
+        if(!array_key_exists(substr($stu->created_at, 0, 7),  $potbonus)){
+          $potbonus[substr($stu->created_at, 0, 7)] = 1;
+        }
+        else{
+          $potbonus[substr($stu->created_at, 0, 7)] += 1;
+        }
       }
 
       if($stu->adv_commission < 0){
@@ -232,6 +285,71 @@
         //$agent->totalmoney += abs($stu->final_commission);
       }
     }}
+    foreach(array_keys($potbonus) as $potbon){
+      if($potbonus[$potbon] > 2){
+        if($potbonus[$potbon] <= 6 ){
+          $agent->totalmoney += 5000;
+        }
+        elseif($potbonus[$potbon] <= 10 ){
+          $agent->totalmoney += 15000;
+        }
+        else{
+         $agent->totalmoney += 25000;
+        }
+      
+      }
+     }
+     $bonusdata = $this->getBonusStatus($id, array_keys($potbonus));
+     $finalbonusdata = [];
+      foreach(array_keys($potbonus) as $bonus){
+        if(!array_key_exists($bonus, $bonusdata) ){
+          if($potbonus[$bonus] > 2){
+          if($potbonus[$bonus] <= 6 ){
+            $agent->unpaid += 5000;
+          }
+          elseif($potbonus[$bonus] <= 10 ){
+            $agent->unpaid += 15000;
+          }
+          else{
+           $agent->unpaid += 25000;
+          }
+        }
+        }
+        elseif($bonusdata[$bonus] == 0){
+          if($potbonus[$bonus] > 2){
+          if($potbonus[$bonus] <= 6 ){
+            $agent->unpaid += 5000;
+          }
+          elseif($potbonus[$bonus] <= 10 ){
+            $agent->unpaid += 15000;
+          }
+          else{
+           $agent->unpaid += 25000;
+          }
+        }
+        }
+      
+      }
+      foreach(array_keys($potbonus) as $bonus){
+        if($potbonus[$bonus] > 2){
+        $paid = false;
+        if(array_key_exists($bonus, $bonusdata)){
+            $paid = true;
+        }
+        $amount = 0;
+        if($potbonus[$bonus]<= 6 ){
+          $amount = 5000;
+         }
+         elseif($potbonus[$bonus] <= 10 ){
+          $amount = 15000;
+         }
+         else{
+          $amount = 25000;
+         }
+        array_push($agent->bonuses, ['month' => $bonus ,'prize' => $amount, 'students' => $potbonus[$bonus], 'status' => $paid]);
+        }
+      }
+
       return $agent;
     }
 
@@ -244,6 +362,9 @@
       $this->db->query('SELECT * FROM tasks WHERE emp_id = :id ORDER BY created_at DESC');
       $this->db->bind(':id', $id);
       $employee->tasks = $this->db->resultSet();
+      $this->db->query('SELECT * FROM contacts WHERE emp_id = :empid ORDER BY id DESC');
+      $this->db->bind(':empid', $id);
+      $employee->contacts = $this->db->resultSet();
       $employee->todayTasks =  0;
       if(count($employee->tasks) > 0){
         $objDateTime = new DateTime('NOW');
@@ -261,22 +382,39 @@
       $agents = $this->db->resultSet();
       foreach($agents as $agent) {
         $agent->processing = 0;
+        $agent->registered = 0;
         $agent->granted = 0;
         $agent->unpaid = 0;
         $agent->totalmoney = 0;
+        $potbonus = [];
         $this->db->query('SELECT * FROM students WHERE agent = :agentid');
         $this->db->bind(':agentid', $agent->id);
         $stus = $this->db->resultSet();
         if(count($stus) > 0){
           foreach($stus as $stu){
-            if($stu->status == 2){
+            if($stu->status == 1){
+              $agent->registered += 1;
+            }
+            elseif($stu->status == 2){
               $agent->processing += 1;
               $agent->totalmoney += abs($stu->adv_commission);
+              if(!array_key_exists(substr($stu->created_at, 0, 7),  $potbonus)){
+                $potbonus[substr($stu->created_at, 0, 7)] = 1;
+              }
+              else{
+                $potbonus[substr($stu->created_at, 0, 7)] += 1;
+              }
             }
             elseif($stu->status == 3){
               $agent->granted +=1;
               $agent->totalmoney += abs($stu->adv_commission);
               $agent->totalmoney += abs($stu->final_commission);
+              if(!array_key_exists(substr($stu->created_at, 0, 7),  $potbonus)){
+                $potbonus[substr($stu->created_at, 0, 7)] = 1;
+              }
+              else{
+                $potbonus[substr($stu->created_at, 0, 7)] += 1;
+              }
             }
 
             if($stu->adv_commission < 0){
@@ -290,9 +428,68 @@
 
           }
         }
+        foreach(array_keys($potbonus) as $potbon){
+          if($potbonus[$potbon] > 2){
+            if($potbonus[$potbon] <= 6 ){
+              $agent->totalmoney += 5000;
+            }
+            elseif($potbonus[$potbon] <= 10 ){
+              $agent->totalmoney += 15000;
+            }
+            else{
+             $agent->totalmoney += 25000;
+            }
+          
+          }
+         }
+         $bonusdata = $this->getBonusStatus($agent->id, array_keys($potbonus));
+         $finalbonusdata = [];
+          foreach(array_keys($potbonus) as $bonus){
+            if(!array_key_exists($bonus, $bonusdata) ){
+              if($potbonus[$bonus] > 2){
+              if($potbonus[$bonus] <= 6 ){
+                $agent->unpaid += 5000;
+              }
+              elseif($potbonus[$bonus] <= 10 ){
+                $agent->unpaid += 15000;
+              }
+              else{
+               $agent->unpaid += 25000;
+              }
+            }
+            }
+            elseif($bonusdata[$bonus] == 0){
+              if($potbonus[$bonus] > 2){
+              if($potbonus[$bonus] <= 6 ){
+                $agent->unpaid += 5000;
+              }
+              elseif($potbonus[$bonus] <= 10 ){
+                $agent->unpaid += 15000;
+              }
+              else{
+               $agent->unpaid += 25000;
+              }
+            }
+            }
+          
+          }
 
       }
       return $agents;
+    }
+
+    public function getBonusStatus($id, $months){
+      $data = [];
+      $this->db->query('SELECT * FROM bonuses WHERE agent = :agentid');
+      $this->db->bind(':agentid', $id);
+      $stus = $this->db->resultSet();
+      if(count($stus) > 0){
+        foreach($stus as $stu){
+      if(in_array($stu->month, $months)){
+          $data[$stu->month] = 1;
+      }
+    }}
+      return $data;
     }
 
 
@@ -310,28 +507,101 @@
         $this->db->query('SELECT * FROM students WHERE agent = :agentid');
         $this->db->bind(':agentid', $agent->id);
         $stus = $this->db->resultSet();
+        $potbonus = [];
         if(count($stus) > 0){
           foreach($stus as $stu){
             if($stu->status == 2){
               $agent->totalmoney += abs($stu->adv_commission);
+              if(!array_key_exists(substr($stu->created_at, 0, 7),  $potbonus)){
+                $potbonus[substr($stu->created_at, 0, 7)] = 1;
+              }
+              else{
+                $potbonus[substr($stu->created_at, 0, 7)] += 1;
+              }
             }
             elseif($stu->status == 3){
               $agent->totalmoney += abs($stu->adv_commission);
               $agent->totalmoney += abs($stu->final_commission);
+              if(!array_key_exists(substr($stu->created_at, 0, 7),  $potbonus)){
+                $potbonus[substr($stu->created_at, 0, 7)] = 1;
+              }
+              else{
+                $potbonus[substr($stu->created_at, 0, 7)] += 1;
+              }
             }
 
           }
         }
+        foreach(array_keys($potbonus) as $potbon){
+          if($potbonus[$potbon] > 2){
+            if($potbonus[$potbon] <= 6 ){
+              $agent->totalmoney += 5000;
+            }
+            elseif($potbonus[$potbon] <= 10 ){
+              $agent->totalmoney += 15000;
+            }
+            else{
+             $agent->totalmoney += 25000;
+            }
+          
+          }
+         }
+        
+        
 
       }
       return $agents;
     }
+
+    public function getContact($id){
+      $this->db->query('SELECT * FROM contacts WHERE id = :id');
+        // Bind value
+        
+        $this->db->bind(':id', $id);
+  
+        $row = $this->db->single();
+  
+        // Check row
+        if($this->db->rowCount() > 0){
+          return $row;
+          
+        } else{
+          return null;
+        }
+    }
+
+    public function getTodaysContacts(){
+      $objDateTime = new DateTime('NOW');
+      $timestamp = $objDateTime->format('Y-m-d');
+      $this->db->query('SELECT * FROM contacts WHERE created_at LIKE :today ORDER BY id DESC');
+      $this->db->bind(':today', $timestamp."%");
+      $results = $this->db->resultSet();
+      return $results;
+    }
+
+    public function getAllContacts(){
+      $this->db->query('SELECT * FROM contacts ORDER BY id DESC');
+      $results = $this->db->resultSet();
+      return $results;
+    }
+
 
     public function registerEmployee($data){
       $this->db->query('INSERT INTO employees (name, emp_id, password) VALUES(:name, :emp_id, :password)');
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':emp_id', $data['emp_id']);
         $this->db->bind(':password', password_hash($data['password'], PASSWORD_BCRYPT));
+        if($this->db->execute()){
+            return true;
+          } else {
+            return false;
+          }
+    }
+
+    public function payBonus($agent, $month){
+      $this->db->query('INSERT INTO bonuses (agent, month) VALUES(:agent, :month)');
+        $this->db->bind(':agent', $agent);
+        $this->db->bind(':month', $month);
         if($this->db->execute()){
             return true;
           } else {

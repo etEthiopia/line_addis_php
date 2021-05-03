@@ -21,7 +21,11 @@
                 $('#students_table').DataTable({
                     "order": [[ 5, "desc" ]]
                 });
+                $('#bonuses_table').DataTable({
+                    "order": [[ 0, "desc" ]],  
+                });   
     });
+    
 </script>
 
 <script src="<?php echo URLROOT; ?>/assets/popper/popper.min.js"></script>

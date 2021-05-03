@@ -39,7 +39,7 @@
     <title>Line Addis - Dashboard</title>
     <?php require APPROOT . '/views/inc/agent_header.php'; ?>
 
-    <section class="info2 cid-sny9bYeRmQ" id="info2-4k">
+    <section class="info2 cid-sny9bYeRmQ" id="info2-4k">    
 
         <h2 style="color: red;" class="mbr-section-title align-center pb-3 mbr-fonts-style display-5">
             <?php echo ($data['student_err'])?>
@@ -102,6 +102,7 @@
     </section>
 
 
+
     <section class="section-table cid-snya0qf97J" id="table1-4l">
 
 
@@ -111,14 +112,7 @@
                 Students</h2>
             <div class="table-wrapper">
                 <div class="container">
-                    <!-- <div class="row search">
-                        <div class="col-md-6">
-                            <div class="dataTables_filter">
-                                <label class="searchInfo mbr-fonts-style display-7">Search:</label>
-                                <input class="form-control input-sm" disabled="">
-                            </div>
-                        </div>
-                    </div> -->
+                   
                 </div>
 
                 <div class="container scroll">
@@ -212,13 +206,80 @@
                     </table>
 
                 </div>
-                
                 <div class="col-md-12 input-group-btn align-right mbr-section-btn"><a
                         class="btn btn-md btn-secondary display-4" href="javascript:OpenModal('ADD-STUDENT')">ADD</a>
                 </div>
+               
             </div>
         </div>
     </section>
+
+
+    <?php if(!empty($data['bonuses'])) : ?>
+    <section class="section-table cid-snya0qf97J" id="table1-4l">
+
+
+
+        <div class="container container-table">
+            <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-5">
+                Bonus List</h2>
+            <div class="table-wrapper">
+                
+
+                <div class="container scroll">
+                    <table class="table table-striped table-bordered" id="bonuses_table" cellspacing="0"
+                        data-empty="No matching records found">
+                        <thead>
+                            <tr class="table-heads ">
+                                <th class="head-item mbr-fonts-style display-7">
+                                    MONTH</th>
+                                <th class="head-item mbr-fonts-style display-7">
+                                    PRIZE</th>
+                                <th class="head-item mbr-fonts-style display-7">
+                                    STUDENTS</th>
+                                <th class="head-item mbr-fonts-style display-7">
+                                    STATUS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php foreach($data['bonuses'] as $bonus) : ?>
+                            <tr>
+                                
+                                <td class="body-item mbr-fonts-style display-7">
+                                    <?php echo $bonus['month']; ?>
+                                </td>
+                                <td class="body-item mbr-fonts-style display-7">
+                                    <?php echo $bonus['prize'] ; ?> ETB
+                                </td>
+                                <td class="body-item mbr-fonts-style display-7">
+                                    <?php echo $bonus['students']; ?>
+                                </td>
+                                <td class="body-item mbr-fonts-style display-7">
+                                    <?php if(substr($bonus['month'], 0, 4)  == date("Y") && substr($bonus['month'], 5, 7) == date("m")): ?>
+                                    Pending
+                                    <?php elseif($bonus['status'] ) : ?>
+                                    Paid
+                                    <?php elseif(!$bonus['status']) : ?>
+                                    UnPaid
+                                   
+                                    <?php endif?>
+                                </td>
+                                
+                                
+                            </tr>
+                            <?php endforeach; ?>
+
+                        </tbody>
+                    </table>
+
+                </div>
+                
+               
+            </div>
+        </div>
+    </section>
+    <?php endif?>
 
     <section class="mbr-section" id="witsec-modal-window-block-4o" data-rv-view="232">
 

@@ -54,6 +54,8 @@
                             Agents</a></li>
                     <li class="nav-item"><a class="nav-link link text-primary display-4" href="<?php echo URLROOT; ?>/controls/tasks">
                             Tasks</a></li>
+                        <li class="nav-item"><a class="nav-link link text-primary display-4" href="<?php echo URLROOT; ?>/controls/contacts">
+                                Contacts</a></li>
                     <li class="nav-item"><a class="nav-link link text-primary display-4" href="<?php echo URLROOT; ?>/controls/employees">
                             Employees</a></li>
 

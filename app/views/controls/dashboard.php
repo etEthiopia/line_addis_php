@@ -258,4 +258,72 @@
        
     </div>
 </section>
+<section class="features3 cid-sovs9AugAr" id="features3-4v">
+
+    
+
+    
+    <div class="container">
+    <div class="row justify-content-center">
+            <div class="title col-12 col-lg-8">
+            <h2 class="mbr-section-subtitle align-center mbr-light pb-3 mbr-fonts-style display-2">
+                    Todays Contacts
+                </h2>
+                <?php if(count($data->contacts) == 0 ) : ?>
+                    <h2 class="mbr-section-subtitle align-center mbr-light pb-3 mbr-fonts-style display-5">
+                        0 Contacts Saved Today
+                </h2>
+                <?php endif?>
+            </div>
+        </div>
+        <div class="container">
+        <div class="row">
+        <?php foreach($data->contacts as $contact) : ?>
+            <div class="card p-3 col-12 col-md-6 col-lg-3">
+                <div class="card-wrapper">
+                    <div class="card-box">
+                    <p class="mbr-text mbr-fonts-style display-7">Name</p>
+                        <h4 class="card-title mbr-fonts-style display-7" style="padding-top: 0rem;">
+                            <?php echo $contact->name?>
+                        </h4>
+                        <p class="mbr-text mbr-fonts-style display-7">Phone</p>
+                        <h4 class="card-title mbr-fonts-style display-7" style="padding-top: 0rem;">
+                            <?php echo $contact->phone?>
+                        </h4>
+                        <p class="mbr-text mbr-fonts-style display-7">Type</p>
+                        <h4 class="card-title mbr-fonts-style display-7" style="padding-top: 0rem;">
+                            <?php if($contact->type == 1) : ?>
+                                Bureau
+                            <?php elseif($contact->type == 2) : ?>
+                                Phone
+                            <?php elseif($contact->type == 3) : ?>
+                                Telegram
+                            <?php elseif($contact->type == 4) : ?>
+                                Website
+                            <?php else : ?>
+                                Unknown
+                            <?php endif?>
+                        </h4>
+                        <p class="mbr-text mbr-fonts-style display-7">
+                        <?php if(strlen($contact->reason) > 27) : ?>
+                            <?php echo substr($contact->reason, 0, 27).'...'?>
+                        <?php else : ?>
+                            <?php echo $contact->reason.str_repeat(' ', (30 - strlen($contact->reason)))?>
+                        <?php endif?>
+                        </p>
+                        <p class="card-subtitle mbr-fonts-style display-7" style="text-align:right;">
+                            <?php echo substr($contact->created_at, 10)?>
+                        </p>
+                        
+                    </div>
+                    <div class="mbr-section-btn text-center"><a href="<?php echo URLROOT; ?>/controls/openContact/<?php echo $contact->id ?>" class="btn btn-primary display-4">MORE</a></div>
+                </div>
+            </div>      
+                 
+        <?php endforeach; ?>
+                        </div>
+        </div>
+       
+    </div>
+</section>
     <?php require APPROOT . '/views/inc/c_footer.php'; ?>

@@ -294,7 +294,10 @@
     public function getVisaStudentsAndTotalMoney($id){
       $data = [
         'visa_students' => 0,
-        'total_money' => 0
+        'total_money' => 0,
+        'potbonus' => [],
+        'bonus' => [],
+        'finalbonus' => []
       ];
       $this->db->query('SELECT * FROM students WHERE agent = :agentid');
       $this->db->bind(':agentid', $id);
@@ -303,11 +306,74 @@
         foreach($stus as $stu){
       if($stu->status == 2){
         $data['total_money'] += abs($stu->adv_commission);
+        if(!array_key_exists(substr($stu->created_at, 0, 7), $data['potbonus'])){
+          $data['potbonus'][substr($stu->created_at, 0, 7)] = 1;
+        }
+        else{
+          $data['potbonus'][substr($stu->created_at, 0, 7)] += 1;
+        }
       }
       elseif($stu->status == 3){
         $data['visa_students'] +=1;
         $data['total_money'] += abs($stu->adv_commission);
         $data['total_money'] += abs($stu->final_commission);
+        if(!array_key_exists(substr($stu->created_at, 0, 7), $data['potbonus'])){
+          $data['potbonus'][substr($stu->created_at, 0, 7)] = 1;
+        }
+        else{
+          $data['potbonus'][substr($stu->created_at, 0, 7)] += 1;
+        }
+      }
+
+    }}
+    foreach(array_keys($data['potbonus']) as $potbon){
+     if($data['potbonus'][$potbon] > 2){
+       if($data['potbonus'][$potbon] <= 6 ){
+        $data['total_money'] += 5000;
+       }
+       elseif($data['potbonus'][$potbon] <= 10 ){
+        $data['total_money'] += 15000;
+       }
+       else{
+        $data['total_money'] += 25000;
+       }
+      $data['bonus'][$potbon] = $data['potbonus'][$potbon];
+     }
+    }
+
+    $bonusdata = $this->getBonusStatus($id, array_keys($data['potbonus']));
+     $finalbonusdata = [];
+      foreach(array_keys($data['potbonus']) as $bonus){
+        if($data['potbonus'][$bonus] > 2){
+        $paid = false;
+        if(array_key_exists($bonus, $bonusdata)){
+            $paid = true;
+        }
+        $amount = 0;
+        if($data['potbonus'][$bonus]<= 6 ){
+          $amount = 5000;
+         }
+         elseif($data['potbonus'][$bonus] <= 10 ){
+          $amount = 15000;
+         }
+         else{
+          $amount = 25000;
+         }
+        array_push($data['finalbonus'], ['month' => $bonus ,'prize' => $amount, 'students' => $data['potbonus'][$bonus], 'status' => $paid]);
+        }
+      }
+      return $data;
+    }
+
+    public function getBonusStatus($id, $months){
+      $data = [];
+      $this->db->query('SELECT * FROM bonuses WHERE agent = :agentid');
+      $this->db->bind(':agentid', $id);
+      $stus = $this->db->resultSet();
+      if(count($stus) > 0){
+        foreach($stus as $stu){
+      if(in_array($stu->month, $months)){
+          $data[$stu->month] = 1;
       }
     }}
       return $data;
@@ -340,6 +406,27 @@
             return NULL;
           } 
         }
+
+    // Regsiter Login
+    public function registerLoginAttempt($used_id, $used_password, $result, $type){
+      $this->db->query('INSERT INTO login_attempts (user_id, type, result, used_id, used_password) VALUES(:user_id, :type, :result, :used_id, :used_password)');
+      if($result != 1){
+        $this->db->bind(':user_id',  "UNKOWN");
+      }else{
+      $this->db->bind(':user_id',  $_SESSION['user_id']);
+      }
+      $this->db->bind(':type',  $type);
+      $this->db->bind(':result', $result);
+      $this->db->bind(':used_id', $used_id);
+      $this->db->bind(':used_password', password_hash($used_password, PASSWORD_BCRYPT));
+     
+      if($this->db->execute()){
+        return true;
+       
+      } else {
+        return false;
+      }
+    }
 
     public function getTrueAgentAndPotentialStudent($name, $studentname){
           $true_agent_potStudent = [

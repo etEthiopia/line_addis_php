@@ -164,12 +164,12 @@
         $mail = new PHPMailer;
         $mail->IsSMTP();								//Sets Mailer to send message using SMTP
         $mail->Host = 'mail.lineaddis.com';		//Sets the SMTP hosts of your Email hosting, this for Godaddy
-        $mail->Port = 587;								//Sets the default SMTP server port
+        $mail->Port = 25;								//Sets the default SMTP server port
         $mail->SMTPAuth = true;		
         $name = 'Agent Testing';
         $email = 'daginegussu@gmail.com';
         $password = 'password12345';					//Sets SMTP authentication. Utilizes the Username and Password variables
-       // $mail->SMTPDebug = 3;
+        $mail->SMTPDebug = 3;
        // $mail->SMTPKeepAlive = true;   
         $mail->Username = 'hello@lineaddis.com';					//Sets SMTP username
         $mail->Password = 'linehelloaddis2021';					//Sets SMTP password
@@ -439,97 +439,145 @@
       if(!isLoggedIn()){
         redirect('agents/login');
       }
-
-      if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        $pass = true;
-        // Sanitize POST array
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-        $data = [
-          'name_1' => trim($_POST['name_1']),
-          'phone_1' => trim($_POST['phone_1']),
-          'student_err' => '',
-          'name_2' => trim($_POST['name_2']),
-          'phone_2' => trim($_POST['phone_2']),
-          'name_3' => trim($_POST['name_3']),
-          'phone_3' => trim($_POST['phone_1']),
-          'visa_students' => 0,
-          'total_money' => 0,
-          'promocode' => '',
-          'affiliate' => '',
-          'students' => []
-        ];
-
-        $topdata = $this->agentModel->getVisaStudentsAndTotalMoney($_SESSION['user_id']);
-        $data['visa_students'] = $topdata['visa_students'];
-        $data['total_money'] = $topdata['total_money'];
-         
-        $data['promocode'] = $this->agentModel->getAgentPromocode($_SESSION['user_id']);
-        $data['affiliate'] = $_SESSION['user_id'];
-        $data['students'] = $this->agentModel->getAgentStudents($_SESSION['user_id']);
-
-        // Make sure no errors
-        if($pass){
-          $length = 1;
-          if(!empty($data['name_2'])){
-            $length = 2;
+      elseif(!empty($_SESSION['user_type'])){
+        if($_SESSION['user_type'] == 1){
+          if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $pass = true;
+            // Sanitize POST array
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    
+            $data = [
+              'name_1' => trim($_POST['name_1']),
+              'phone_1' => trim($_POST['phone_1']),
+              'student_err' => '',
+              'name_2' => trim($_POST['name_2']),
+              'phone_2' => trim($_POST['phone_2']),
+              'name_3' => trim($_POST['name_3']),
+              'phone_3' => trim($_POST['phone_1']),
+              'visa_students' => 0,
+              'total_money' => 0,
+              'promocode' => '',
+              'affiliate' => '',
+              'students' => [],
+              'bonuses' => []
+            ];
+            
+          $topdata = $this->agentModel->getVisaStudentsAndTotalMoney($_SESSION['user_id']);
+          $bonusdata = $this->agentModel->getBonusStatus($_SESSION['user_id'], $topdata['bonus']);
+          $data['visa_students'] = $topdata['visa_students'];
+          $data['total_money'] = $topdata['total_money'];
+          $finalbonusdata = [];
+          foreach(array_keys($topdata['bonus']) as $bonus){
+            $paid = false;
+            if(!empty($bonusdata[$bonus])){
+              if($bonusdata[$bonus] == 1){
+                $paid = true;
+              }
+            }
+            $amount = 0;
+            if($topdata['bonus'][$bonus] <= 6 ){
+              $amount = 5000;
+             }
+             elseif($topdata['bonus'][$bonus] <= 10 ){
+              $amount = 15000;
+             }
+             else{
+              $amount = 25000;
+             }
+            array_push($finalbonusdata, ['month' => $bonus ,'prize' => $amount, 'students' => $topdata['bonus'][$bonus], 'status' => $paid]);
           }
-          if(!empty($data['name_3'])){
-            $length = 3;
+          $data['bonuses'] = $finalbonusdata;
+          $data['promocode'] = $this->agentModel->getAgentPromocode($_SESSION['user_id']);
+          $data['affiliate'] = $_SESSION['user_id'];
+          $data['students'] = $this->agentModel->getAgentStudents($_SESSION['user_id']);
+    
+    
+            // Make sure no errors
+            if($pass){
+              $length = 1;
+              if(!empty($data['name_2'])){
+                $length = 2;
+              }
+              if(!empty($data['name_3'])){
+                $length = 3;
+              }
+              
+            
+              
+              if($this->agentModel->registerSuggested($data, $length)){
+                $data['students'] = $this->agentModel->getAgentStudents($_SESSION['user_id']);
+                $this->view('agents/dashboard', $data);
+              } else {
+                die('Registeration is Unsuccessful');
+                $data['student_err'] = 'Registeration is Unsuccessful'; 
+                $this->view('agents/dashboard', $data);
+              }
+            } else {
+              $this->view('agents/dashboard', $data);
+            }
+    
           }
+          else{
+          $data = [
+            'name_1' => '',
+            'phone_1' => '',
+            'student_err' => '',
+            'name_2' => '',
+            'phone_2' => '',
+            'name_3' => '',
+            'phone_3' => '',
+            'visa_students' => 0,
+            'total_money' => 0,
+            'promocode' => '',
+            'affiliate' => '',
+            'students' => [],
+            'bonuses' => []
+          ];
+          
+          $topdata = $this->agentModel->getVisaStudentsAndTotalMoney($_SESSION['user_id']);
+          $data['visa_students'] = $topdata['visa_students'];
+          $data['total_money'] = $topdata['total_money'];
+          
+          $data['bonuses'] = $topdata['finalbonus'];
+          $data['promocode'] = $this->agentModel->getAgentPromocode($_SESSION['user_id']);
+          $data['affiliate'] = $_SESSION['user_id'];
+          $data['students'] = $this->agentModel->getAgentStudents($_SESSION['user_id']);
           
         
-          
-          if($this->agentModel->registerSuggested($data, $length)){
-            $data['students'] = $this->agentModel->getAgentStudents($_SESSION['user_id']);
-            $this->view('agents/dashboard', $data);
-          } else {
-            die('Registeration is Unsuccessful');
-            $data['student_err'] = 'Registeration is Unsuccessful'; 
-            $this->view('agents/dashboard', $data);
-          }
-        } else {
           $this->view('agents/dashboard', $data);
         }
-
+        }else{
+     
+          $this->view('pages/index');
+        }
+        
+      }else{
+        $this->view('pages/index');
       }
-      else{
-      $data = [
-        'name_1' => '',
-        'phone_1' => '',
-        'student_err' => '',
-        'name_2' => '',
-        'phone_2' => '',
-        'name_3' => '',
-        'phone_3' => '',
-        'visa_students' => 0,
-        'total_money' => 0,
-        'promocode' => '',
-        'affiliate' => '',
-        'students' => []
-      ];
-      $topdata = $this->agentModel->getVisaStudentsAndTotalMoney($_SESSION['user_id']);
-      $data['visa_students'] = $topdata['visa_students'];
-      $data['total_money'] = $topdata['total_money'];
-       
-      $data['promocode'] = $this->agentModel->getAgentPromocode($_SESSION['user_id']);
-      $data['affiliate'] = $_SESSION['user_id'];
-      $data['students'] = $this->agentModel->getAgentStudents($_SESSION['user_id']);
+
       
-    $this->view('agents/dashboard', $data);
-    }
     }
 
+    
     public function index(){
       if(!isLoggedIn()){
         redirect('agents/login');
       }
-        else{
+      elseif(!empty($_SESSION['user_type'])){
+        if($_SESSION['user_type'] == 1){
           redirect('agents/dashboard');
         }
+        else{
+        $this->view('pages/index');
+      }
+      }else{
+        $this->view('pages/index');
+      }
+      
     }
 
     public function acceptandregister(){
+
       if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $pass = true;
         // Sanitize POST array
@@ -630,6 +678,7 @@
           // User found
         } else {
           // User not found
+          $this->agentModel->registerLoginAttempt($data['email'], $data['password'], 0, 1);
           $data['password_err'] = 'Email / Password is Incorrect.';
         }
 
@@ -642,8 +691,10 @@
           if($loggedInUser){
             // Create Session
             $this->createUserSession($loggedInUser);
+            $this->agentModel->registerLoginAttempt($data['email'], $data['password'], 1, 1);
           } else {
-            $data['password_err'] = 'Email or Password is Incorrect.';
+            $this->agentModel->registerLoginAttempt($data['email'], $data['password'], 0, 1);
+             $data['password_err'] = 'Email or Password is Incorrect.';
 
             $this->view('agents/login', $data);
           }
@@ -921,10 +972,23 @@
     }
 
     public function delete_students($id){
-      if(!empty($id)){
-        $this->studentModel->deletePotentialStudent($id);
+      if(!isLoggedIn()){
+        redirect('agents/login');
       }
-      redirect('agents/dashboard');
+      elseif(!empty($_SESSION['user_type'])){
+        if($_SESSION['user_type'] == 1){
+          if(!empty($id)){
+            $this->studentModel->deletePotentialStudent($id);
+          }
+          redirect('agents/dashboard');
+        }
+        else{
+        $this->view('pages/index');
+      }
+      }else{
+        redirect('agents/login');
+      }
+     
     }
 
     public function createUserSession($user){
@@ -932,7 +996,6 @@
       $_SESSION['user_type'] = 1;
       $_SESSION['user_email'] = $user->email;
       $_SESSION['user_name'] = $user->name;
-
       redirect('agents/dashboard');
     }
 

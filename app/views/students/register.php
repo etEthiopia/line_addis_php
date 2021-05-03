@@ -173,8 +173,8 @@
                             </div>
 
                             <div class="col-md-4 form-group infofield" data-for="info" onchange="changeOthers()">
-                                <label for="infofield" class="form-control-label mbr-fonts-style display-7">How Did You
-                                    Hear About Us?</label>
+                                    <label for="infofield" class="form-control-label mbr-fonts-style display-7">How Did You
+                                        Hear About Us?</label>
                                 <select id="infofield" name="info" class="form-control display-7">
                                     <option style="display:none" value=""></option>
                                     <option value="Telegram">Telegram</option>

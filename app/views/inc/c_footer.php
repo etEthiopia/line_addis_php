@@ -33,7 +33,18 @@
                 }); 
                 $('#students_table').DataTable({
                     "order": [],  
+                });  
+                $('#bonuses_table').DataTable({
+                    "order": [[ 0, "desc" ]],  
                 });   
+                $('#contacts_table').DataTable({
+                    "order": [[ 4, "desc" ]],  
+                }); 
+                $('#my_contest_table').DataTable({
+                    "order": [[ 6, "desc" ]],  
+                }); 
+                
+                
         }
         
     );

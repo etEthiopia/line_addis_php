@@ -18,8 +18,19 @@
 
 <script>
      $(document).ready( function () {
-                $('#my_tasks_table').DataTable();
+                $('#my_tasks_table').DataTable({}); 
+                $('#students_table').DataTable({
+                    "order": [],  
+                });  
+                $('#bonuses_table').DataTable({
+                    "order": [[ 0, "desc" ]],  
+                }); 
+                $('#my_contacts_table').DataTable({
+                    "order": [[ 4, "desc" ]],  
+                }); 
+                
     });
+   
 </script>
 
 

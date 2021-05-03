@@ -57,6 +57,9 @@
                                 <h2 class="mbr-text mb-0 mbr-fonts-style display-5"
                                     ><?php echo count($data->tasks)?> Total Tasks Reported
                                 </h2>
+                                <h2 class="mbr-text mb-0 mbr-fonts-style display-5"
+                                    ><?php echo count($data->contacts)?> Total Cotacts Saved
+                                </h2>
                                 
                                 <p class="mbr-text mb-0 mbr-fonts-style display-7">Registry
                                     <strong id="affiliate_promocode" class="mbr-text mb-0 mbr-fonts-style display-7">
@@ -118,6 +121,85 @@
                                 
                                 <td class="body-item mbr-fonts-style display-7">
                                     <?php echo $task->created_at;?>
+                                </td>
+                               
+                            </tr>
+                            <?php endforeach; ?>
+
+                        </tbody>
+                    </table>
+
+                </div>
+                
+                
+            </div>
+        </div>
+    </section>
+
+    <section class="section-table cid-snya0qf97J" id="table1-4l">
+        <div class="container container-table">
+            <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-5">
+                Contacts</h2>
+            <div class="table-wrapper">
+                <div class="container">
+                </div>
+
+                <div class="container scroll">
+                    <table class="table table-striped table-bordered" id="contacts_table" cellspacing="0"
+                        data-empty="No matching records found">
+                        <thead>
+                            <tr class="table-heads ">
+                                <th class="head-item mbr-fonts-style display-7">
+                                    NAME</th>
+                                <th class="head-item mbr-fonts-style display-7">
+                                    PHONE</th>
+                                <th class="head-item mbr-fonts-style display-7">
+                                    TYPE</th>
+                                <th class="head-item mbr-fonts-style display-7">
+                                    REASON</th>
+                                <th class="head-item mbr-fonts-style display-7">
+                                    DATE & TIME</th>
+                                    
+                                    <th class="head-item mbr-fonts-style display-7"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php foreach($data->contacts as $contact) : ?>
+                            <tr>
+                                <td class="body-item mbr-fonts-style display-7">
+                                    <?php echo $contact->name; ?>
+                                </td>
+                                <td class="body-item mbr-fonts-style display-7">
+                                    <?php echo $contact->phone; ?>
+                                </td>
+                                <td class="body-item mbr-fonts-style display-7">
+                                    <?php if($contact->type == 1) : ?>
+                                    Bureau
+                                    <?php elseif($contact->type == 2) : ?>
+                                    Phone
+                                    <?php elseif($contact->type == 3) : ?>
+                                    Telegram
+                                    <?php elseif($contact->type == 4) : ?>
+                                    Website
+                                    <?php else : ?>
+                                    Unknown
+                                    <?php endif?>
+                                </td>
+                                
+                                <td class="body-item mbr-fonts-style display-7">
+                                <?php if(strlen($contact->reason) > 27) : ?>
+                                    <?php echo substr($contact->reason, 0, 27).'...'?>
+                                <?php else : ?>
+                                    <?php echo $contact->reason?>
+                                <?php endif?>
+                                </td>
+                                <td class="body-item mbr-fonts-style display-7">
+                                    <?php echo $contact->created_at;?>
+                                </td>
+                                <td>
+                              <a class=" link text-primary display-7" href="<?php echo URLROOT; ?>/controls/opencontact/<?php echo $contact->id ?>">More</a>
+            
                                 </td>
                                
                             </tr>

@@ -50,11 +50,22 @@
                             Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link link text-primary display-4" href="<?php echo URLROOT; ?>/employees/alltasks">
                             All Tasks</a></li>
-
+                     <li class="nav-item"><a class="nav-link link text-primary display-4" href="<?php echo URLROOT; ?>/employees/contacts">
+                            Contacts</a></li>
                             
                     <li class="nav-item">
                         <a class="nav-link link text-primary display-4" href="<?php echo URLROOT; ?>/employees/profile">
                             Profile
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link text-primary display-4" href="<?php echo URLROOT; ?>/employees/students">
+                            Students
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link text-primary display-4" href="<?php echo URLROOT; ?>/employees/agents">
+                            Agents
                         </a>
                     </li>
 
@@ -62,6 +73,8 @@
                             href="<?php echo URLROOT; ?>/employees/logout">Log Out&nbsp;&nbsp;</a></li>
                     
                 </ul>
+                <div class="mbr-section-btn text-center"><a href="<?php echo URLROOT; ?>/employees/contacts/#form1-4w" class="btn btn-success display-4">
+                            Add Contact</a></div>
                 <div class="mbr-section-btn text-center"><a href="<?php echo URLROOT; ?>/employees/dashboard/#form1-4w" class="btn btn-primary display-4">
                             Add Task</a></div>
             </div>

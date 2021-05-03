@@ -82,6 +82,8 @@
                                 <th class="head-item mbr-fonts-style display-7">
                                     NAME</th>
                                 <th class="head-item mbr-fonts-style display-7">
+                                   REGISTERED<br/>STUDENTS</th>
+                                <th class="head-item mbr-fonts-style display-7">
                                    PROCCESSING<br/>STUDENTS</th>
                                 <th class="head-item mbr-fonts-style display-7">
                                     SUCCESSFUL<br/>STUDENTS</th>
@@ -106,6 +108,9 @@
                                     <?php echo $agent->name; ?>
                                 <?php endif?>
                                 </a>
+                                </td>
+                                <td class="body-item mbr-fonts-style display-7">
+                                    <?php echo $agent->registered; ?>
                                 </td>
                                 <td class="body-item mbr-fonts-style display-7">
                                     <?php echo $agent->processing; ?>

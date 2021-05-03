@@ -45,9 +45,8 @@
                             style="font-weight: normal;">Work With Us, Get your Cut!</span></h3>
                     <p class="mbr-text align-center pb-3 mbr-fonts-style display-5">
                         Line Addis is
-                        offering you the chance to recruit students.</p>
-                    <p class="mbr-text align-center pb-3 mbr-fonts-style display-5">
-                        Get your own affiliate link and promocode, and Start recruiting today!</p>
+                        offering you the chance to recruit and get commisions + bonuses.<br/> Get your own affiliate link and promocode, and Start recruiting today! </p>
+                    
                     <div mbr-buttons mbr-theme-style="display-4" class="mbr-section-btn mt-3 align-center" mbr-if="showButtons">
                     <a class="btn btn-md btn-success display-4" href="<?php echo URLROOT; ?>/agents/login" data-app-placeholder="Type Text">LOGIN</a>
                     <a class="btn btn-md btn-secondary display-4" href="subagents.html#form1-40" data-app-placeholder="Type Text">REGISTER</a></div>
@@ -69,8 +68,7 @@
                     <h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2">Become An Agent</h2>
                     <h3 class="mbr-section-subtitle align-center mbr-light pb-3 mbr-fonts-style display-5">Get your own
                         affiliate link and promocode. Start recruiting today!
-                        <div>You can easily be our sub-agent by filling your personal information and going through the
-                            terms and conditions section of this page.</div>
+                        <div>You can earn up to 6,000 ETB with each successful recommendation with a target to hit additional bonuses up to 25,000 ETB</div>
                     </h3>
                 </div>
             </div>
@@ -301,9 +299,7 @@
                                                     <p class="mbr-step-text mbr-fonts-style display-7">This sales
                                                         commission agreement is
                                                         entered into by and between Line Addis Travel Agency “Employer”,
-                                                        and
-                                                        …
-                                                        <?php echo ($data['name'])?>…ISR(independent sales
+                                                        and ISR(independent sales
                                                         representatives). The purpose of this agreement is to
                                                         establish a formal contract between a company and an individual
                                                         whereby that individual
@@ -311,13 +307,10 @@
                                                         customers, and agrees to be
                                                         compensated according to the company’s sales commission policy.
                                                         <br><br>Terms
-                                                        <br>Recruited customers:- customers who are recommended by
-                                                        employee and sign agreements
+                                                        <br>Sales: a recommended client, who sign agreement with line addis and Pay advance fees.
                                                         with line Addis consultancy and make advance payments
                                                         <br>Working day: Monday - Friday
-                                                        <br>Sales: Let clients go to line addis travel agency, sign
-                                                        agreement and make advance
-                                                        payment.&nbsp;<br>
+                                                        
                                                     </p>
                                                 </div>
                                             </div>
@@ -334,11 +327,7 @@
                                                     <h4 class="mbr-step-title pb-3 mbr-fonts-style display-5">
                                                         Authorization and prohibitions
                                                     </h4>
-                                                    <p class="mbr-step-text mbr-fonts-style display-7">This sales
-                                                        commission agreement serves as
-                                                        authorization for the ISR to sale the services on behalf of the
-                                                        Employer. These rights
-                                                        are non-transferrable and non-exclusive.
+                                                    <p class="mbr-step-text mbr-fonts-style display-7">
                                                         <br>The ISR agrees to recommend clients for the services under
                                                         the Employer’s brand.
                                                         <br>The ISR will use its best efforts to sell the services of
@@ -392,15 +381,9 @@
                                                         <br><strong>Termination of agreement
                                                         </strong><br>Satisfactory performance:-
                                                         <br>The ISR employment shall continue only as long as the
-                                                        services performed by the
-                                                        employee are satisfactory to the employer.
+                                                        services performed are satisfactory to the employer.
                                                         <br>
-                                                        <br><strong>Minimum Target
-                                                        </strong><br>ISR must make 1 sales in a period of 60 days from
-                                                        the day this document is
-                                                        signed. Failure to meet the minimum target by the ISR will
-                                                        result in termination of the
-                                                        employment&nbsp;<br>
+                                                        
                                                     </p>
                                                 </div>
                                             </div>
@@ -427,14 +410,7 @@
                                                             information deemed proprietary, sensitive, or confidential
                                                             to any third
                                                             party.&nbsp;</span></p>
-                                                    <br><strong> Coupon codes</strong>
-                                                    <br>Each representative will receive a unique promo codes and he/she
-                                                    can promote the Promo
-                                                    codes on their platforms. If clients write down the promo code on
-                                                    the application form the
-                                                    ISR will receive a commission and the customer shall receive a 3000
-                                                    ETB discount from the
-                                                    final service charges.&nbsp;<br>
+                                                    
                                                     <p></p>
                                                 </div>
                                             </div>
@@ -453,8 +429,7 @@
                                                     <p class="mbr-step-text mbr-fonts-style display-7">The Employer
                                                         agrees to compensate the ISR
                                                         for sales of the Employer’s services as follows:
-                                                        <br>The employer pay the ISR___________________ETB, for each
-                                                        sales.
+                                                        <br>The employer pay the ISR <strong>1,000 ETB</strong> after the client sign agreement and pay the advance fee, and additional  <strong>5,000 ETB</strong> after the client received Visa.
                                                         <br>
                                                         <br><strong>Effects of compensation.</strong>
                                                         <br>The employee will be entitled to the commission earned prior
@@ -467,23 +442,26 @@
                                                         </strong><br>One of the following conditions should be fulfilled
                                                         to make commission
                                                         payments to the ISR
-                                                        <br>Alternative A. The client write the ISR name on the
-                                                        application form
-                                                        <br>Alternative B. The client write the promo code on the
+                                                        <br/>
+                                                        <br>Alternative A: The client writes the ISR name on the
                                                         application form.
-                                                        <br>Alternative C. The client is on a recommendations list
-                                                        exclusively by the ISR.
+                                                        <br>Alternative B: The client writes the promo code on the
+                                                        application form. The client will get  <strong>1,000 ETB</strong> off from the advance payment.
+                                                        <br>Alternative C: The client registers by the 
+                                                        affliate link of the ISR. The client will get  <strong>1,000 ETB</strong> off from the advance payment.
+                                                        <br>Alternative D: The client is on a recommendations list
+                                                        exclusively by the ISR. 
                                                         <br>
                                                         <br><strong>Bonuses</strong>
                                                         <br>the employer agrees to give bonus payments to the ISR as
                                                         follows
-                                                        <br>1-2 successfully recommended clients per month no bonus will
+                                                        <br>1-2 successfully sales per month no bonus will
                                                         be rewarded
-                                                        <br>3-6 successfully recommended clients per month 5000 ETB will
+                                                        <br>3-6 successfully sales per month <strong>5,000 ETB</strong> will
                                                         be rewarded
-                                                        <br>7-10 successfully recommended clients per month 15,000 ETB
+                                                        <br>7-10 successfully sales per month <strong>15,000 ETB</strong>
                                                         will be rewarded
-                                                        <br>11+ successful, 25,000 ETB will be rewarded
+                                                        <br>11+ successful sales per month, <strong>25,000 ETB</strong> will be rewarded
                                                         <br>
                                                         <br><strong>Bill period
                                                         </strong><br>Commissions will be paid in 2 installments every

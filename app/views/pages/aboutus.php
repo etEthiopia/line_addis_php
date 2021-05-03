@@ -361,75 +361,85 @@
 
 <div class="container pt-3 mt-2">
     <div class="media-container-row">
-        <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4">
-            <div class="panel-item p-3">
-                <div class="card-block">
+    <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4">
+                    <div class="panel-item p-3">
+                        <div class="card-block">
+                        <div class="testimonial-photo">
+                            <img src="<?php echo URLROOT?>/assets/images/jossyy.jpg">
+                        </div>
+                            <p class="mbr-text mbr-fonts-style display-5">Yosef Mulugeta</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="mbr-author-name mbr-bold mbr-fonts-style display-7"><span
+                                    style="font-weight: normal;">GENERAL MANAGER</span></div>
 
-                    <p class="mbr-text mbr-fonts-style display-5">Yosef Mulugeta</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <div class="mbr-author-name mbr-bold mbr-fonts-style display-7"><span
-                            style="font-weight: normal;">GENERAL MANAGER</span></div>
 
+                <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4">
+                    <div class="panel-item p-3">
+                        <div class="card-block">
+                        <div class="testimonial-photo">
+                            <img src="<?php echo URLROOT?>/assets/images/dagi_man.jpg">
+                        </div>
+                            <p class="mbr-text mbr-fonts-style display-5">Dagmawi Negussu</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="mbr-author-name mbr-bold mbr-fonts-style display-7"><span
+                                    style="font-weight: normal;">CHIEF INFORMATION OFFICER (CIO)</span></div>
+
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4">
-            <div class="panel-item p-3">
-                <div class="card-block">
+                <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4">
+                    <div class="panel-item p-3">
+                        <div class="card-block">
+                        <div class="testimonial-photo">
+                            <img src="<?php echo URLROOT?>/assets/images/yorrdii.jpg">
+                        </div>
+                            <p class="mbr-text mbr-fonts-style display-5">Yordanos Hailu</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="mbr-author-name mbr-bold mbr-fonts-style display-7"><span
+                                    style="font-weight: normal;">MARKETING & CUSTOMER SERVICE</span></div>
 
-                    <p class="mbr-text mbr-fonts-style display-5">Dagmawi Negussu</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <div class="mbr-author-name mbr-bold mbr-fonts-style display-7"><span
-                            style="font-weight: normal;">CHIEF INFORMATION OFFICER (CIO)</span></div>
 
+                <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4">
+                    <div class="panel-item p-3">
+                        <div class="card-block">
+                        <div class="testimonial-photo">
+                            <img src="<?php echo URLROOT?>/assets/images/arseemaa.jpg">
+                        </div>
+                            <p class="mbr-text mbr-fonts-style display-5">Arsema Gizachew</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="mbr-author-name mbr-bold mbr-fonts-style display-7"><span
+                                    style="font-weight: normal;">MARKETING</span></div>
+
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4">
-            <div class="panel-item p-3">
-                <div class="card-block">
+                <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4">
+                    <div class="panel-item p-3">
+                        <div class="card-block">
+                        <div class="testimonial-photo">
+                            <img src="<?php echo URLROOT?>/assets/images/sentaayeww.jpg">
+                        </div>
+                            <p class="mbr-text mbr-fonts-style display-5"> Sintayehu Wakuma</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="mbr-author-name mbr-bold mbr-fonts-style display-7"><span
+                                    style="font-weight: normal;">INTERNATIONAL RELATIONS</span></div>
 
-                    <p class="mbr-text mbr-fonts-style display-5"> Yohanes Bogale</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <div class="mbr-author-name mbr-bold mbr-fonts-style display-7"><span
-                            style="font-weight: normal;">FINANCE OFFICER</span></div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4">
-            <div class="panel-item p-3">
-                <div class="card-block">
-
-                    <p class="mbr-text mbr-fonts-style display-5">Yordanos Hailu</p>
-                </div>
-                <div class="card-footer">
-                    <div class="mbr-author-name mbr-bold mbr-fonts-style display-7"><span
-                            style="font-weight: normal;">MARKETING & CUSTOMER SERVICE</span></div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4">
-            <div class="panel-item p-3">
-                <div class="card-block">
-
-                    <p class="mbr-text mbr-fonts-style display-5">Natnael Yigzaw</p>
-                </div>
-                <div class="card-footer">
-                    <div class="mbr-author-name mbr-bold mbr-fonts-style display-7"><span
-                            style="font-weight: normal;">PR CONSULTANT</span></div>
-
-                </div>
-            </div>
-        </div>
 
 
 

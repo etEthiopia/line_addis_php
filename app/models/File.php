@@ -25,6 +25,15 @@
     }   
     }
 
+    public function addGalleryContestGroupFiles($insertValuesSQL){
+      $this->db->query("INSERT INTO gallery_contest_group_files (dir, group_id, email) VALUES $insertValuesSQL");
+      if($this->db->execute()){ 
+        return true;
+    }else{ 
+        return false;
+    }   
+    }
+
 
     // Find user by email
     public function findFileByEmail($email){
